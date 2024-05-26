@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,7 +41,7 @@ public class MessageController {
         return message;
     }
 
-    @PutMapping("/message/{id}")
+    @PatchMapping("/message/{id}")
     public Message updateMessage(@RequestBody Message message, @PathVariable int id) {
         int index = messages.indexOf(message);
         for (Message m : messages) {
