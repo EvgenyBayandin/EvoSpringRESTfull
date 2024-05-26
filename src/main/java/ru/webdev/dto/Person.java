@@ -22,7 +22,7 @@ public class Person {
     private String lastname;
     private LocalDate birthday;
 
-    public Person(String firstname, String surname, String lastname, java.time.LocalDate birthday) {
+    public Person(String firstname, String surname, String lastname, LocalDate birthday) {
         this.firstname = firstname;
         this.surname = surname;
         this.lastname = lastname;

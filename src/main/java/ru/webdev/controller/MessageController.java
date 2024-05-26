@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,48 +17,39 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.webdev.dto.Message;
+import ru.webdev.repository.MessageRepository;
 
 @RestController
 public class MessageController {
 
-    List<Message> messages = new ArrayList<>(Arrays.asList(
-            new Message(1, "Hello", "Hello World!", LocalDateTime.of(2024, 05, 26, 12, 00, 00)),
-            new Message(2, "Hi", "Hi Java!", LocalDateTime.of(2024, 05, 26, 12, 10, 00)),
-            new Message(3, "Bye", "Bye Java!", LocalDateTime.of(2024, 05, 26, 12, 20, 00)),
-            new Message(4, "Hello", "Hello World!", LocalDateTime.now())
-    ));
+    @Autowired
+    private MessageRepository messageRepository;
 
     @GetMapping("/message")
     public Iterable<Message> getMessages() {
-        return messages;
+        return messageRepository.findAll();
     }
 
     @GetMapping("/message/{id}")
     public Optional<Message> getMessageById(@PathVariable int id) {
-        return messages.stream().filter(message -> message.getId() == id).findFirst();
+        return messageRepository.findById(id);
     }
 
     @PostMapping("/message")
     public Message addMessage(@RequestBody Message message) {
-        messages.add(message);
+        messageRepository.save(message);
         return message;
     }
 
     @PatchMapping("/message/{id}")
-    public Message updateMessage(@RequestBody Message message, @PathVariable int id) {
-        int index = messages.indexOf(message);
-        for (Message m : messages) {
-            if (m.getId() == id) {
-                index = messages.indexOf(m);
-                messages.set(index, message);
-            }
-        }
-        return message;
+    public ResponseEntity<Message> updateMessage(@RequestBody Message message, @PathVariable int id) {
+        HttpStatus status = messageRepository.existsById(id)? HttpStatus.OK : HttpStatus.CREATED;
+        return new ResponseEntity<Message>(messageRepository.save(message), status);
     }
 
     @DeleteMapping("/message/{id}")
     public void deleteMessage(@PathVariable int id) {
-        messages.removeIf(message -> message.getId() == id);
+        messageRepository.deleteById(id);
     }
 
 

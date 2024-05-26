@@ -2,9 +2,9 @@ package ru.webdev.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.webdev.dto.Person;
+import ru.webdev.dto.Message;
 
 @Repository
-public interface PersonRepository extends CrudRepository<Person, Integer> {
+public interface MessageRepository extends CrudRepository<Message, Integer> {
 
 }
