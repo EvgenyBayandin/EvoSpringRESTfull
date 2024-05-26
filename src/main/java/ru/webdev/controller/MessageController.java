@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.webdev.dto.Message;
 
@@ -21,5 +23,12 @@ public class MessageController {
     public Iterable<Message> getMessages() {
         return messages;
     }
+
+    @GetMapping("/message/{id}")
+    public Message getMessageById(@PathVariable int id) {
+        return messages.stream().filter(message -> message.getId() == id).findFirst().get();
+    }
+
+
 
 }
