@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.webdev.dto.Message;
 import ru.webdev.dto.Person;
 import ru.webdev.repository.PersonRepository;
 
@@ -40,6 +41,14 @@ public class PersonController {
     public Person addPerson(@RequestBody Person person) {
         personRepository.save(person);
         return person;
+    }
+
+    // добавление сообщения конкретному пользователю
+    @PostMapping("/person/{id}/message")
+    public Person addMessage(@PathVariable int id, @RequestBody Message message) {
+        Person person = personRepository.findById(id).get();
+        person.addMessage(message);
+        return personRepository.save(person);
     }
 
     @PatchMapping("/person/{id}")
