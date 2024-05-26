@@ -3,6 +3,7 @@ package ru.webdev.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,8 +26,8 @@ public class MessageController {
     }
 
     @GetMapping("/message/{id}")
-    public Message getMessageById(@PathVariable int id) {
-        return messages.stream().filter(message -> message.getId() == id).findFirst().get();
+    public Optional<Message> getMessageById(@PathVariable int id) {
+        return messages.stream().filter(message -> message.getId() == id).findFirst();
     }
 
 
