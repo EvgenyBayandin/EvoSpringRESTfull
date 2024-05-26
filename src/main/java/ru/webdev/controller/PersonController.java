@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.webdev.dto.Message;
 import ru.webdev.dto.Person;
 import ru.webdev.repository.PersonRepository;
+import ru.webdev.service.PersonService;
 
 @RestController
 public class PersonController {
@@ -38,6 +39,9 @@ public class PersonController {
     @Autowired
     private PersonRepository personRepository;
 
+    @Autowired
+    private PersonService service;
+
     @PostMapping("/person")
     public Person addPerson(@RequestBody Person person) {
         personRepository.save(person);
@@ -47,11 +51,7 @@ public class PersonController {
     // добавление сообщения конкретному пользователю
     @PostMapping("/person/{id}/message")
     public Person addMessage(@PathVariable int id, @RequestBody Message message) {
-        Person person = personRepository.findById(id).get();
-        message.setPerson(person);
-        message.setTime(LocalDateTime.now());
-        person.addMessage(message);
-        return personRepository.save(person);
+        return service.addMessageToPerson(id, message);
     }
 
     @PatchMapping("/person/{id}")
