@@ -1,4 +1,4 @@
-package ru.webdev;
+package ru.webdev.dto;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
