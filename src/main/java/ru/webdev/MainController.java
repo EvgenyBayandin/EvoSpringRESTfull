@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,12 +25,24 @@ public class MainController {
     ));
 
     @PostMapping("/person")
-    public ResponseEntity<Person> setPerson(@RequestBody Person person) {
+    public Person addPerson(@RequestBody Person person) {
         persons.add(person);
-        return new ResponseEntity<Person>(person, HttpStatus.CREATED);
+        return person;
     }
 
-    @GetMapping("/person")
+    @PutMapping("/person/{id}")
+    public Person updatePerson(@RequestBody Person person, @PathVariable int id) {
+       int index = -1;
+        for (Person p : persons) {
+            if (p.getId() == id) {
+                index = persons.indexOf(p);
+                persons.set(index, person);
+            }
+        }
+        return index == -1 ? addPerson(person) : person;
+    }
+
+    @GetMapping("/persons")
     public Iterable<Person> getPerson() {
         return persons;
     }
