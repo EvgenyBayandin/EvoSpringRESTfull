@@ -31,7 +31,7 @@ public class MainController {
     }
 
     @PutMapping("/person/{id}")
-    public Person updatePerson(@RequestBody Person person, @PathVariable int id) {
+    public ResponseEntity<Person> updatePerson(@RequestBody Person person, @PathVariable int id) {
        int index = -1;
         for (Person p : persons) {
             if (p.getId() == id) {
@@ -39,7 +39,9 @@ public class MainController {
                 persons.set(index, person);
             }
         }
-        return index == -1 ? addPerson(person) : person;
+        return index == -1
+                ? new ResponseEntity<>(addPerson(person), HttpStatus.CREATED)
+                : new ResponseEntity<>(person, HttpStatus.OK);
     }
 
     @GetMapping("/persons")
