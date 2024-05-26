@@ -1,6 +1,9 @@
 package ru.webdev;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,17 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MainController {
 
-    private Person person;
+    private List<Person> persons = new ArrayList<>(Arrays.asList(
+            new Person(1, "Ivan", "Ivanovich", "Ivanov", LocalDate.of(1999, 2,3)),
+            new Person(2, "Петр", "Петрович", "Петров", LocalDate.of(2002, 2,2)),
+            new Person(3, "Евгений", "Васильевич", "Васин", LocalDate.of(2005, 4,8)),
+            new Person(4, "Максим", "Яковлевич", "Окопский", LocalDate.of(1978, 6,5))
+    ));
 
     @PostMapping("/person")
     public ResponseEntity<Person> setPerson(@RequestBody Person person) {
-        this.person = person;
+        persons.add(person);
         return new ResponseEntity<Person>(person, HttpStatus.CREATED);
     }
 
     @GetMapping("/person")
-    public ResponseEntity<Person> getPerson() {
-        return new ResponseEntity<Person>(person, HttpStatus.OK);
+    public Iterable<Person> getPerson() {
+        return persons;
     }
 
     @GetMapping
