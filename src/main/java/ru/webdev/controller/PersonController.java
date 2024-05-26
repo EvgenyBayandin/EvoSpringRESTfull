@@ -1,6 +1,7 @@
 package ru.webdev.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -47,6 +48,8 @@ public class PersonController {
     @PostMapping("/person/{id}/message")
     public Person addMessage(@PathVariable int id, @RequestBody Message message) {
         Person person = personRepository.findById(id).get();
+        message.setPerson(person);
+        message.setTime(LocalDateTime.now());
         person.addMessage(message);
         return personRepository.save(person);
     }
