@@ -54,6 +54,11 @@ public class MainController {
         return persons.stream().filter(p -> p.getId() == id).findFirst();
     }
 
+    @org.springframework.web.bind.annotation.DeleteMapping("/person/{id}")
+    public void deletePerson(@PathVariable int id) {
+        persons.removeIf(p -> p.getId() == id);
+    }
+
     @GetMapping
     public String hello() {
         return "Hello, world!";
