@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,11 @@ public class MessageController {
             }
         }
         return message;
+    }
+
+    @DeleteMapping("/message/{id}")
+    public void deleteMessage(@PathVariable int id) {
+        messages.removeIf(message -> message.getId() == id);
     }
 
 
