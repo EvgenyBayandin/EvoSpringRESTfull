@@ -41,6 +41,16 @@ public class PersonService {
         }
     }
 
+    // Возврат объекта Person по id
+    public ResponseEntity<Person> getPerson(int p_id) {
+        Optional<Person> person = personRepository.findById(p_id);
+        if (person.isPresent()) {
+            return new ResponseEntity<>(person.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     // Возврат сообщения Message с m_id для объекта Person по p_id
     public ResponseEntity<Message> getMessageByIdAndPersonId(int p_id, int m_id) {
         Optional<Person> person = personRepository.findById(p_id);

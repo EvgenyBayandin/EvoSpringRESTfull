@@ -75,8 +75,8 @@ public class PersonController {
 
     // Возврат объекта Person по id
     @GetMapping("/person/{id}")
-    public Optional<Person> getPersonById(@PathVariable int id) {
-        return personRepository.findById(id);
+    public ResponseEntity<Person> getPersonById(@PathVariable int id) {
+        return service.getPerson(id);
     }
 
     // Удаление объекта Person по id
