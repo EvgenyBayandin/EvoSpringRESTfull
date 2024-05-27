@@ -21,6 +21,16 @@ public class PersonService {
     MessageRepository messageRepository;
 
 
+    // Возврат списка сообщений Message для объекта Person по p_id
+    public ResponseEntity<Iterable<Message>> getMessages(int p_id) {
+        Optional<Person> person = personRepository.findById(p_id);
+        if (person.isPresent()) {
+            return new ResponseEntity<>(messageRepository.findByPersonId(p_id), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     // Добавление сообщения Message в объект Person по p_id
     public ResponseEntity<Person> addMessageToPerson(int p_id, Message message) {

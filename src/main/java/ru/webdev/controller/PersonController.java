@@ -62,8 +62,8 @@ public class PersonController {
 
     // Возврат списка сообщений Message для объекта Person по p_id
     @GetMapping("/person/{p_id}/message")
-    public List<Message> getMessages(@PathVariable int p_id) {
-        return personRepository.findById(p_id).get().getMessages();
+    public ResponseEntity<Iterable <Message>> getMessagesByPersonId(@PathVariable int p_id) {
+        return service.getMessages(p_id);
     }
 
     // Возврат сообщения Message с m_id для объекта Person по p_id
