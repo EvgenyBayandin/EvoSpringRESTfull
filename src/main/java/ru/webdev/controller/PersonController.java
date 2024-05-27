@@ -63,8 +63,7 @@ public class PersonController {
     // Изменение объекта Person по id
     @PutMapping("/person/{id}")
     public ResponseEntity<Person> updatePersonById(@RequestBody Person person, @PathVariable int id) {
-        HttpStatus status = personRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
-        return new ResponseEntity<Person>(personRepository.save(person), status);
+        return service.updatePerson(person, id);
     }
 
     // Возврат списка объектов Person

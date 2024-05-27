@@ -27,6 +27,12 @@ public class PersonService {
         return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
 
+    // Изменение объекта Person по id
+    public ResponseEntity<Person> updatePerson(Person person, int id) {
+        HttpStatus status = personRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
+        return new ResponseEntity<Person>(personRepository.save(person), status);
+    }
+
     // Возврат списка объектов Person
     public ResponseEntity<Iterable<Person>> getAllPersons() {
         Iterable<Person> persons = personRepository.findAll();
