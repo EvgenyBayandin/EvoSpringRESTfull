@@ -41,7 +41,7 @@ public class MessageController {
         return message;
     }
 
-    @PatchMapping("/message/{id}")
+    @PutMapping("/message/{id}")
     public ResponseEntity<Message> updateMessage(@RequestBody Message message, @PathVariable int id) {
         HttpStatus status = messageRepository.existsById(id)? HttpStatus.OK : HttpStatus.CREATED;
         return new ResponseEntity<Message>(messageRepository.save(message), status);

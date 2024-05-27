@@ -93,23 +93,42 @@ public class PersonController {
         return personRepository.findById(p_id).get().getMessages();
     }
 
-
-    @PatchMapping("/person/{id}")
-    public ResponseEntity<Person> updatePerson(@RequestBody Person person, @PathVariable int id) {
-       HttpStatus status = personRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
-       return new ResponseEntity<Person>(personRepository.save(person), status);
+    // Возврат сообщения Message с m_id для объекта Person по p_id
+    @GetMapping("/person/{p_id}/message/{m_id}")
+    public Message getMessageByIdAndPersonId(@PathVariable int p_id, @PathVariable int m_id) {
+        return personRepository.findById(p_id).get().getMessages().stream()
+                .filter(m -> m.getId() == m_id)
+                .findFirst()
+                .orElse(null);
     }
 
+    // Обновление объекта Person по id
+//    @PatchMapping("/person/{id}")
+//    public ResponseEntity<Person> updatePerson(@RequestBody Person person, @PathVariable int id) {
+//       HttpStatus status = personRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
+//       return new ResponseEntity<Person>(personRepository.save(person), status);
+//    }
+
+    // Изменение объекта Person по id
+    @PutMapping("/person/{id}")
+    public ResponseEntity<Person> updatePersonById(@RequestBody Person person, @PathVariable int id) {
+        HttpStatus status = personRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
+        return new ResponseEntity<Person>(personRepository.save(person), status);
+    }
+
+    // Возврат списка объектов Person
     @GetMapping("/person")
     public Iterable<Person> getPerson() {
         return personRepository.findAll();
     }
 
+    // Возврат объекта Person по id
     @GetMapping("/person/{id}")
     public Optional<Person> getPersonById(@PathVariable int id) {
         return personRepository.findById(id);
     }
 
+    // Удаление объекта Person по id
     @DeleteMapping("/person/{id}")
     public void deletePerson(@PathVariable int id) {
         personRepository.deleteById(id);
