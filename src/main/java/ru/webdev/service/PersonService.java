@@ -21,6 +21,16 @@ public class PersonService {
     MessageRepository messageRepository;
 
 
+    // Возврат списка объектов Person
+    public ResponseEntity<Iterable<Person>> getAllPersons() {
+        Iterable<Person> persons = personRepository.findAll();
+        if (persons.iterator().hasNext()) {
+            return new ResponseEntity<>(persons, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     // Возврат списка сообщений Message для объекта Person по p_id
     public ResponseEntity<Iterable<Message>> getMessages(int p_id) {
         Optional<Person> person = personRepository.findById(p_id);

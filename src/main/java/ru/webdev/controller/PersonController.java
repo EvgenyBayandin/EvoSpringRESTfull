@@ -60,13 +60,6 @@ public class PersonController {
         return service.getMessageByIdAndPersonId(p_id, m_id);
     }
 
-    // Обновление объекта Person по id
-//    @PatchMapping("/person/{id}")
-//    public ResponseEntity<Person> updatePerson(@RequestBody Person person, @PathVariable int id) {
-//       HttpStatus status = personRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
-//       return new ResponseEntity<Person>(personRepository.save(person), status);
-//    }
-
     // Изменение объекта Person по id
     @PutMapping("/person/{id}")
     public ResponseEntity<Person> updatePersonById(@RequestBody Person person, @PathVariable int id) {
@@ -76,8 +69,8 @@ public class PersonController {
 
     // Возврат списка объектов Person
     @GetMapping("/person")
-    public Iterable<Person> getPerson() {
-        return personRepository.findAll();
+    public ResponseEntity<Iterable<Person>> getPerson() {
+        return service.getAllPersons();
     }
 
     // Возврат объекта Person по id
