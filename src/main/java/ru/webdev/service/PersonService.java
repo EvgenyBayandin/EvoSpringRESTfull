@@ -33,6 +33,14 @@ public class PersonService {
         return new ResponseEntity<Person>(personRepository.save(person), status);
     }
 
+    // Удаление объекта Person по id
+    public ResponseEntity<Person> deletePerson(int id) {
+        HttpStatus status = personRepository.existsById(id) ? HttpStatus.OK : HttpStatus.NOT_FOUND;
+        personRepository.deleteById(id);
+        return new ResponseEntity<>(status);
+    }
+
+
     // Возврат списка объектов Person
     public ResponseEntity<Iterable<Person>> getAllPersons() {
         Iterable<Person> persons = personRepository.findAll();

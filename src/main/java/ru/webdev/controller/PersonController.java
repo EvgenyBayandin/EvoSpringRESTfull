@@ -80,8 +80,8 @@ public class PersonController {
 
     // Удаление объекта Person по id
     @DeleteMapping("/person/{id}")
-    public void deletePerson(@PathVariable int id) {
-        personRepository.deleteById(id);
+    public ResponseEntity<Person> deletePersonById(@PathVariable int id)  {
+        return service.deletePerson(id);
     }
 
     @GetMapping
