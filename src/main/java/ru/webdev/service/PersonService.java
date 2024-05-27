@@ -31,6 +31,21 @@ public class PersonService {
         }
     }
 
+    // Возврат сообщения Message с m_id для объекта Person по p_id
+    public ResponseEntity<Message> getMessageByIdAndPersonId(int p_id, int m_id) {
+        Optional<Person> person = personRepository.findById(p_id);
+        if (person.isPresent()) {
+            Optional<Message> message = messageRepository.findById(m_id);
+            if (message.isPresent()) {
+                return new ResponseEntity<>(message.get(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     // Добавление сообщения Message в объект Person по p_id
     public ResponseEntity<Person> addMessageToPerson(int p_id, Message message) {
