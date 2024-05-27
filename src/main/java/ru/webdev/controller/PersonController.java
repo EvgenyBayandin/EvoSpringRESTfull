@@ -50,8 +50,15 @@ public class PersonController {
 
     // добавление сообщения конкретному пользователю
     @PostMapping("/person/{id}/message")
-    public Person addMessage(@PathVariable int id, @RequestBody Message message) {
-        return service.addMessageToPerson(id, message);
+    public ResponseEntity<Person> addMessage(@PathVariable int id, @RequestBody Message message) {
+        if (!personRepository.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            Person person = personRepository.findById(id).get();
+            person.addMessage(message);
+            personRepository.save(person);
+            return new ResponseEntity<>(person, HttpStatus.OK);
+        }
     }
 
     @PatchMapping("/person/{id}")
