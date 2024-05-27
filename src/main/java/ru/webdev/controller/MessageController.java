@@ -52,5 +52,4 @@ public class MessageController {
         messageRepository.deleteById(id);
     }
 
-
 }
