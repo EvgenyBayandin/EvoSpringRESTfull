@@ -56,6 +56,7 @@ public class PersonController {
         } else {
             Person person = personRepository.findById(p_id).get();
             person.addMessage(message);
+            message.setPerson(person);
             message.setTime(LocalDateTime.now());
             personRepository.save(person);
             return new ResponseEntity<>(person, HttpStatus.OK);

@@ -23,12 +23,12 @@ public class Person {
     private String firstname;
     private String surname;
     private String lastname;
-    private LocalDate birthday;
+    private String birthday;
 
     @OneToMany(cascade = CascadeType.ALL) // для касскадного удаления сообщений пользователя при его удалении
     List<Message> messages; // добавили обратную связь с сообщениями
 
-    public Person(String firstname, String surname, String lastname, LocalDate birthday, List<Message> messages) {
+    public Person(String firstname, String surname, String lastname, String birthday, List<Message> messages) {
         this.firstname = firstname;
         this.surname = surname;
         this.lastname = lastname;
