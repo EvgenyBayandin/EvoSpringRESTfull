@@ -48,13 +48,13 @@ public class PersonController {
         return person;
     }
 
-    // добавление сообщения конкретному пользователю
-    @PostMapping("/person/{id}/message")
-    public ResponseEntity<Person> addMessage(@PathVariable int id, @RequestBody Message message) {
-        if (!personRepository.existsById(id)) {
+    // Добавление сообщения Message в объект Person с p_id
+    @PostMapping("/person/{p_id}/message")
+    public ResponseEntity<Person> addMessage(@PathVariable int p_id, @RequestBody Message message) {
+        if (!personRepository.existsById(p_id)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            Person person = personRepository.findById(id).get();
+            Person person = personRepository.findById(p_id).get();
             person.addMessage(message);
             message.setTime(LocalDateTime.now());
             personRepository.save(person);
@@ -62,8 +62,8 @@ public class PersonController {
         }
     }
 
-    // удаление сообщения по ID у конкретного пользователя
-    @DeleteMapping("/person/{p_id}/message/{m_d}")
+    // Удаление сообщения Message с m_id из объекта Person с p_id
+    @DeleteMapping("/person/{p_id}/message/{m_id}")
     public ResponseEntity<Void> deleteMessageByIdAndPersonId(@PathVariable int p_id, @PathVariable int m_id) {
         // Проверяем, существует ли пользователь с таким ID
         Optional<Person> optionalPerson = personRepository.findById(p_id);
@@ -87,7 +87,11 @@ public class PersonController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    // Возврат списка сообщений Message для объекта Person по p_id
+    @GetMapping("/person/{p_id}/message")
+    public List<Message> getMessages(@PathVariable int p_id) {
+        return personRepository.findById(p_id).get().getMessages();
+    }
 
 
     @PatchMapping("/person/{id}")
