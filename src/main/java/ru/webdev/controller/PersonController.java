@@ -48,19 +48,11 @@ public class PersonController {
         return person;
     }
 
-    // Добавление сообщения Message в объект Person с p_id
+    // Добавление сообщения Message в объект Person по p_id
+
     @PostMapping("/person/{p_id}/message")
     public ResponseEntity<Person> addMessage(@PathVariable int p_id, @RequestBody Message message) {
-        if (!personRepository.existsById(p_id)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            Person person = personRepository.findById(p_id).get();
-            person.addMessage(message);
-            message.setPerson(person);
-            message.setTime(LocalDateTime.now());
-            personRepository.save(person);
-            return new ResponseEntity<>(person, HttpStatus.OK);
-        }
+        return service.addMessageToPerson(p_id, message);
     }
 
     // Удаление сообщения Message с m_id из объекта Person с p_id
