@@ -126,5 +126,9 @@ public class PersonService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    // say Hello
+    public String sayHello()  {
+        return "Hello World!";
+    }
 
 }

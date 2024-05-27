@@ -1,13 +1,10 @@
 package ru.webdev.controller;
 
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.webdev.dto.Message;
 import ru.webdev.dto.Person;
-import ru.webdev.repository.PersonRepository;
 import ru.webdev.service.PersonService;
 
 @RestController
@@ -17,15 +14,13 @@ public class PersonController {
     Content-Type: application/json
 
     {
+      "id":  1,
       "firstname": "Василий",
       "surname": "Викторович",
       "lastname": "Петрушин",
       "birthday": "2001-01-01"
     }
     */
-
-    @Autowired
-    private PersonRepository personRepository;
 
     @Autowired
     private PersonService service;
@@ -86,6 +81,6 @@ public class PersonController {
 
     @GetMapping
     public String hello() {
-        return "Hello, world!";
+        return service.sayHello();
     }
 }
