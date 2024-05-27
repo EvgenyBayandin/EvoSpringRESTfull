@@ -49,7 +49,6 @@ public class PersonController {
     }
 
     // Добавление сообщения Message в объект Person по p_id
-
     @PostMapping("/person/{p_id}/message")
     public ResponseEntity<Person> addMessage(@PathVariable int p_id, @RequestBody Message message) {
         return service.addMessageToPerson(p_id, message);
@@ -57,27 +56,8 @@ public class PersonController {
 
     // Удаление сообщения Message с m_id из объекта Person с p_id
     @DeleteMapping("/person/{p_id}/message/{m_id}")
-    public ResponseEntity<Void> deleteMessageByIdAndPersonId(@PathVariable int p_id, @PathVariable int m_id) {
-        // Проверяем, существует ли пользователь с таким ID
-        Optional<Person> optionalPerson = personRepository.findById(p_id);
-        if (!optionalPerson.isPresent()) {
-            // Возвращаем код 404, если пользователь не найден
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        Person person = optionalPerson.get();
-        // Проверяем, принадлежит ли сообщение пользователю
-        boolean belongsToUser = person.getMessages().stream()
-                .anyMatch(m -> m.getId() == m_id);
-        if (!belongsToUser) {
-            // Возвращаем код 404, если сообщение не принадлежит пользователю
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        // Удаляем сообщение из списка сообщений пользователя
-        person.getMessages().removeIf(m -> m.getId() == m_id);
-        // Сохраняем изменения
-        personRepository.save(person);
-        // Возвращаем код 200, если сообщение успешно удалено
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Person> deleteMessageByIdAndPersonId(@PathVariable int p_id, @PathVariable int m_id) {
+        return service.removeMessageByIdFromPersonById(p_id, m_id);
     }
 
     // Возврат списка сообщений Message для объекта Person по p_id
