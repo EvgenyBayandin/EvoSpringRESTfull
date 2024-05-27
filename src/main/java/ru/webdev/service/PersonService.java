@@ -21,6 +21,12 @@ public class PersonService {
     MessageRepository messageRepository;
 
 
+    // Добавление объекта Person
+    public ResponseEntity<Person> addPerson(Person person) {
+        Person savedPerson = personRepository.save(person);
+        return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
+    }
+
     // Возврат списка объектов Person
     public ResponseEntity<Iterable<Person>> getAllPersons() {
         Iterable<Person> persons = personRepository.findAll();

@@ -30,10 +30,10 @@ public class PersonController {
     @Autowired
     private PersonService service;
 
+    // Добавление объекта Person
     @PostMapping("/person")
-    public Person addPerson(@RequestBody Person person) {
-        personRepository.save(person);
-        return person;
+    public ResponseEntity<Person> addPerson(@RequestBody Person person) {
+        return service.addPerson(person);
     }
 
     // Добавление сообщения Message в объект Person по p_id
