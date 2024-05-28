@@ -35,8 +35,9 @@ public class Message {
         this.person = person;
     }
 
-    public Message(String title, String text) {
+    public Message(String title, String text, LocalDateTime time)  {
         this.title = title;
         this.text = text;
+        this.time  = time;
     }
 }

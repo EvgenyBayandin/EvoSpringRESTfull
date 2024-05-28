@@ -29,8 +29,30 @@ public class PersonService {
 
     // Изменение объекта Person по id
     public ResponseEntity<Person> updatePerson(Person person, int id) {
-        HttpStatus status = personRepository.existsById(id) ? HttpStatus.OK : HttpStatus.CREATED;
-        return new ResponseEntity<Person>(personRepository.save(person), status);
+        Optional<Person> existingPersonOptional  = personRepository.findById(id);
+        if (!existingPersonOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        Person existingPerson = existingPersonOptional.get();
+        if (person.getFirstname() != null){
+            existingPerson.setFirstname(person.getFirstname());
+        }
+        if (person.getLastname() != null){
+            existingPerson.setLastname(person.getLastname());
+        }
+        if (person.getSurname() != null){
+            existingPerson.setSurname(person.getSurname());
+        }
+        if (person.getMessages() != null){
+            existingPerson.setMessages(person.getMessages());
+        } else {
+            person.setMessages(existingPerson.getMessages());
+        }
+        if(person.getBirthday()!= null){
+            existingPerson.setBirthday(person.getBirthday());
+        }
+        Person updatedPerson = personRepository.save(existingPerson);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedPerson);
     }
 
     // Удаление объекта Person по id
