@@ -43,11 +43,11 @@ public class MessageService {
         return new ResponseEntity<>(savedMessage, HttpStatus.CREATED);
     }
 
-    // Изменение объекта Message по id
-    public ResponseEntity<Message> updateMessage(int id, Message message) {
+    // Обновление объекта Message по id
+    public ResponseEntity<Message> patchMessage(int id, Message message) {
         Optional<Message> existingMessageOptional = messageRepository.findById(id);
         if (!existingMessageOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         Message existingMessage = existingMessageOptional.get();
         if(message.getTitle() != null){
@@ -61,6 +61,20 @@ public class MessageService {
         } else {
             message.setTime(existingMessage.getTime());
         }
+        Message updatedMessage = messageRepository.save(existingMessage);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedMessage);
+    }
+
+    // Изменение объекта Message по id
+    public ResponseEntity<Message> putMessage(int id, Message message) {
+        Optional<Message> existingMessageOptional = messageRepository.findById(id);
+        if (!existingMessageOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        Message existingMessage = existingMessageOptional.get();
+        existingMessage.setTitle(message.getTitle());
+        existingMessage.setText(message.getText());
+        existingMessage.setTime(message.getTime());
         Message updatedMessage = messageRepository.save(existingMessage);
         return ResponseEntity.status(HttpStatus.OK).body(updatedMessage);
     }

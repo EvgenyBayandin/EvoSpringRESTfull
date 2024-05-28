@@ -27,11 +27,11 @@ public class PersonService {
         return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
 
-    // Изменение объекта Person по id
-    public ResponseEntity<Person> updatePerson(Person person, int id) {
+    // Обновление объекта Person по id
+    public ResponseEntity<Person> patchPerson(Person person, int id) {
         Optional<Person> existingPersonOptional  = personRepository.findById(id);
         if (!existingPersonOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         Person existingPerson = existingPersonOptional.get();
         if (person.getFirstname() != null){
@@ -51,6 +51,22 @@ public class PersonService {
         if(person.getBirthday()!= null){
             existingPerson.setBirthday(person.getBirthday());
         }
+        Person updatedPerson = personRepository.save(existingPerson);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedPerson);
+    }
+
+    // Изменение объекта Person по id
+    public ResponseEntity<Person> putPerson(Person person, int id)  {
+        Optional<Person> existingPersonOptional  = personRepository.findById(id);
+        if (!existingPersonOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        Person existingPerson = existingPersonOptional.get();
+        existingPerson.setFirstname(person.getFirstname());
+        existingPerson.setLastname(person.getLastname());
+        existingPerson.setSurname(person.getSurname());
+        existingPerson.setBirthday(person.getBirthday());
+        existingPerson.setMessages(person.getMessages());
         Person updatedPerson = personRepository.save(existingPerson);
         return ResponseEntity.status(HttpStatus.OK).body(updatedPerson);
     }

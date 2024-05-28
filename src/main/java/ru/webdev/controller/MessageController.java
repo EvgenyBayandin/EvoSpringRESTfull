@@ -34,10 +34,16 @@ public class MessageController {
         return service.addMessage(message);
     }
 
+    // Обновление объекта Message по id
+    @PatchMapping("/message/{id}")
+    public ResponseEntity<Message> patchMessageById(@RequestBody Message message, @PathVariable int id) {
+        return service.patchMessage(id, message);
+    }
+
     // Изменение объекта Message по id
     @PutMapping("/message/{id}")
-    public ResponseEntity<Message> updateMessage(@RequestBody Message message, @PathVariable int id) {
-        return service.updateMessage(id, message);
+    public ResponseEntity<Message> updateMessageById(@RequestBody Message message,  @PathVariable int id)  {
+        return service.putMessage(id, message);
     }
 
     // Удаление объекта Message по id

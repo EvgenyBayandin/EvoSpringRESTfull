@@ -55,10 +55,16 @@ public class PersonController {
         return service.getMessageByIdAndPersonId(p_id, m_id);
     }
 
+    // Обновление объекта Person по id
+    @PatchMapping("/person/{id}")
+    public ResponseEntity<Person> patchPersonById(@RequestBody Person person, @PathVariable int id) {
+        return service.patchPerson(person, id);
+    }
+
     // Изменение объекта Person по id
     @PutMapping("/person/{id}")
-    public ResponseEntity<Person> updatePersonById(@RequestBody Person person, @PathVariable int id) {
-        return service.updatePerson(person, id);
+    public ResponseEntity<Person> putPersonById(@RequestBody Person person, @PathVariable int id)  {
+        return service.putPerson(person, id);
     }
 
     // Возврат списка объектов Person
