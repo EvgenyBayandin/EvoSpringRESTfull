@@ -127,8 +127,8 @@ public class PersonService {
     }
 
     // say Hello
-    public String sayHello()  {
-        return "Hello World!";
+    public ResponseEntity<String> sayHello()  {
+        return new ResponseEntity<>("Hello World!", HttpStatus.OK);
     }
 
 }

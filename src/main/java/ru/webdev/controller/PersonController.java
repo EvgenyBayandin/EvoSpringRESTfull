@@ -80,7 +80,7 @@ public class PersonController {
     }
 
     @GetMapping
-    public String hello() {
+    public ResponseEntity<String> hello() {
         return service.sayHello();
     }
 }
